@@ -1,0 +1,7 @@
+ur-arm
+tests
+.vscode
+__pycache__
+
+# Mac OS
+.DS_Store
