@@ -22,7 +22,7 @@ class Arm:
         self._client.send(f"{cmd}\n".encode(encoding="utf-8", errors="ignore"))
 
     def get_position(self):
-        self._client.send(b"get_actual_tcp_pose()\n")
+        self.__send("get_actual_tcp_pose()")
         print(self._client.recv(1024).decode("unicode_escape"))
         # print(response)
 
