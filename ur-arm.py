@@ -21,17 +21,6 @@ class Arm:
     def __send(self, cmd: str):
         self._client.send(f"{cmd}\n".encode(encoding="utf-8", errors="ignore"))
 
-    def get_position(self):
-        self.__send("get_actual_tcp_pose()")
-        print(self._client.recv(1024).decode("unicode_escape"))
-        # print(response)
-
-    def set_zero(self, move_option="movej"):
-        # TODO: set to desired home position
-        # Does not work, do not run this!
-        move_cmd = f"{move_option}(p[163,-327,-417,0,-3,0],a=1.4,v=1.05)"
-        self.__send(move_cmd)
-
     def movej(
         self,
         x: float = None,
@@ -42,7 +31,7 @@ class Arm:
         rz: float = None,
     ):
         move_cmd = f"movej(pose_add(get_actual_tcp_pose(),p[{x or 0},{y or 0},{z or 0},{rx or 0},{ry or 0},{rz or 0}]),a=1.4,v=1.05)\n"
-        self._client.send(move_cmd.encode(encoding="utf-8", errors="ignore"))
+        self.__send(move_cmd)
 
     def movel(
         self,
@@ -54,9 +43,8 @@ class Arm:
         rz: float = None,
     ):
         move_cmd = f"movel(pose_add(get_actual_tcp_pose(),p[{x or 0},{y or 0},{z or 0},{rx or 0},{ry or 0},{rz or 0}]),a=1.4,v=1.05)\n"
-        self._client.send(move_cmd.encode(encoding="utf-8", errors="ignore"))
+        self.__send(move_cmd)
 
 
 if __name__ == "__main__":
     arm = Arm()
-    arm.get_position()
